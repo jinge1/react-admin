@@ -1,68 +1,64 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# react antd 后台管理系统
 
-## Available Scripts
+## 创建项目
 
-In the project directory, you can run:
+1. 安装 create-react-app
+   `npm install -g create-react-app`
 
-### `npm start`
+2. 创建项目
+   `create-react-app react-admin`
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+3. 导出配置（方便后续自定义配置）
+   `npm run eject`
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## 安装项目依赖
 
-### `npm test`
+- 安装依赖
+  `npm install react-router-dom antd --save`
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 安装 babel-plugin-import 以便实现按需加载
+  `npm install babel-plugin-import --save-dev`
 
-### `npm run build`
+## 按需加载配置修改
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+修改 babel-loader 中 plugins 配置，如：
+**注意： plugins中import项的顺序需在其他plugins之前**
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+```javascript
+{
+  test: /\.(js|mjs|jsx|ts|tsx)$/,
+  include: paths.appSrc,
+  loader: require.resolve('babel-loader'),
+  options: {
+    customize: require.resolve(
+      'babel-preset-react-app/webpack-overrides'
+    ),
+    plugins: [
+      [
+        'import',
+        {
+          libraryName: 'antd',
+          libraryDirectory: 'es',
+          style: 'css' // `style: true` 会加载 less 文件
+        }
+      ],
+      [
+        require.resolve('babel-plugin-named-asset-import'),
+        {
+          loaderMap: {
+            svg: {
+              ReactComponent: '@svgr/webpack?-svgo,+ref![path]'
+            }
+          }
+        }
+      ]
+    ],
+    // This is a feature of `babel-loader` for webpack (not Babel itself).
+    // It enables caching results in ./node_modules/.cache/babel-loader/
+    // directory for faster rebuilds.
+    cacheDirectory: true,
+    cacheCompression: isEnvProduction,
+    compact: isEnvProduction
+  }
+}
+```

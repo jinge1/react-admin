@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from 'react'
 import { BrowserRouter, Route, Link, Switch } from 'react-router-dom'
+import { Button, DatePicker } from "antd"
 
 import './index.css'
 import './App.css'
@@ -21,8 +22,10 @@ function App() {
       <div className="App">
         <header className="App-header">
           <p>
-            Edit9 <code>src/App.js</code> and save to reload.
+            Edit9 <code>src/App.js</code> and save to reload.<Button>hei</Button>
+            
           </p>
+          <DatePicker></DatePicker>
           <nav>
             <ul>
               <li>
