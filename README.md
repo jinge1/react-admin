@@ -8,7 +8,7 @@
 2. 创建项目
    `create-react-app react-admin`
 
-3. 导出配置（方便后续自定义配置）
+3. 导出配置（方便后续自定义配置，or react-app-rewired）
    `npm run eject`
 
 ## 安装项目依赖

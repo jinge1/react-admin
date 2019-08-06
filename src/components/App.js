@@ -1,47 +1,72 @@
-import React, { lazy, Suspense } from 'react'
-import { BrowserRouter, Route, Link, Switch } from 'react-router-dom'
-import { Button, DatePicker } from "antd"
-
-import './index.css'
+import React, { useState } from 'react'
+import { Layout } from 'antd'
+import CommMenu from './CommMenu'
+import CommHeader from './CommHeader'
+import CommRouter from './CommRouter'
 import './App.css'
 
-const HomePage = lazy(() => import('../views/Home'))
-const LoginPage = lazy(() => import('../views/Login'))
-const RegisterPage = lazy(() => import('../views/Register'))
+const { Header, Sider, Content } = Layout
 
 function App() {
+  const [collapsed, setCollapsed] = useState(false)
   return (
-    <BrowserRouter>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Switch>
-          <Route path="/" exact component={HomePage} />
-          <Route path="/login" component={LoginPage} />
-          <Route path="/register" component={RegisterPage} />
-        </Switch>
-      </Suspense>
-      <div className="App">
-        <header className="App-header">
-          <p>
-            Edit9 <code>src/App.js</code> and save to reload.<Button>hei</Button>
-            
-          </p>
-          <DatePicker></DatePicker>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/login">Login</Link>
-              </li>
-              <li>
-                <Link to="/register">Register</Link>
-              </li>
-            </ul>
-          </nav>
-        </header>
-      </div>
-    </BrowserRouter>
+    <Layout>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        style={{
+          position: 'fixed',
+          overflow: 'auto',
+          left: 0,
+          zIndex: 1000,
+          height: '100vh'
+        }}
+      >
+        <h1 className="sysName">react-admin</h1>
+        <CommMenu />
+      </Sider>
+      <Layout>
+        <Header
+          style={{
+            position: 'fixed',
+            width: '100%',
+            top: 0,
+            padding: 0,
+            zIndex: 999,
+          }}
+        >
+          <div
+            className="contentBlock"
+            style={{
+              background: '#fff'
+            }}
+          >
+            <div
+              className="block"
+              style={{
+                width: collapsed ? '80px' : '200px'
+              }}
+            />
+            <CommHeader
+              collapsed={collapsed}
+              handleClick={() => setCollapsed(!collapsed)}
+            />
+          </div>
+        </Header>
+        <Content>
+          <div className="contentBlock">
+            <div
+              className="block"
+              style={{
+                width: collapsed ? '80px' : '200px'
+              }}
+            />
+            <CommRouter />
+          </div>
+        </Content>
+      </Layout>
+    </Layout>
   )
 }
 
