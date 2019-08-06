@@ -1,16 +1,31 @@
-.contentBlock {
+.contentSection {
   display: flex;
 }
-.block{
+.block {
   width: 200px;
-  transition: width .2s ease;
+  transition: width 0.2s ease;
 }
-.sysName{
+.contentBlock {
+  flex: 1;
+}
+.sysName {
   margin: 0;
   padding: 0;
   color: #fff;
   line-height: 3em;
   text-indent: 2em;
+  white-space: nowrap;
 }
-
-
+.headerBlock{
+  height: 78px;
+}
+.Home{
+  text-align: center;
+}
+.Home p{
+  height: 200px;
+  background: orange;
+}
+.Home p:nth-child(odd){
+  background: gray;
+}

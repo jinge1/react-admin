@@ -3,7 +3,6 @@ import { Avatar, Icon } from 'antd'
 import './CommHeader.css'
 
 export default function PageHeader(props) {
-  console.log(props)
   const {collapsed, handleClick} = props
   return (
     <div className="PageHeader">

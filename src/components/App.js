@@ -3,6 +3,7 @@ import { Layout } from 'antd'
 import CommMenu from './CommMenu'
 import CommHeader from './CommHeader'
 import CommRouter from './CommRouter'
+import './reset.css'
 import './App.css'
 
 const { Header, Sider, Content } = Layout
@@ -33,11 +34,11 @@ function App() {
             width: '100%',
             top: 0,
             padding: 0,
-            zIndex: 999,
+            zIndex: 999
           }}
         >
           <div
-            className="contentBlock"
+            className="contentSection"
             style={{
               background: '#fff'
             }}
@@ -48,21 +49,26 @@ function App() {
                 width: collapsed ? '80px' : '200px'
               }}
             />
-            <CommHeader
-              collapsed={collapsed}
-              handleClick={() => setCollapsed(!collapsed)}
-            />
+            <div className="contentBlock">
+              <CommHeader
+                collapsed={collapsed}
+                handleClick={() => setCollapsed(!collapsed)}
+              />
+            </div>
           </div>
         </Header>
         <Content>
-          <div className="contentBlock">
+          <div className="headerBlock"></div>
+          <div className="contentSection">
             <div
               className="block"
               style={{
                 width: collapsed ? '80px' : '200px'
               }}
             />
-            <CommRouter />
+            <div className="contentBlock">
+              <CommRouter />
+            </div>
           </div>
         </Content>
       </Layout>

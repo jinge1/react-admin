@@ -1,13 +1,22 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Menu, Icon } from 'antd'
+import fetchData from './../utils/fetchData'
 const { SubMenu } = Menu
 
+
+
 export default function CommMenu(props) {
+  const [list, setList] = useState([])
+  useEffect(()=> {
+    fetchData('userMenu').then(res => {
+      setList(res.data.list)
+    })
+  }, [])
   return (
     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
       <Menu.Item key="1">
         <Icon type="pie-chart" />
-        <span>Option 1</span>
+        <span>Option {list.length}</span>
       </Menu.Item>
       <Menu.Item key="2">
         <Icon type="desktop" />
