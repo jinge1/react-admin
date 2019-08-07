@@ -6,3 +6,6 @@
 .commNavTab li{
   padding: 0 20px;
 }
+.commNavTab li.active{
+  color: red;
+}

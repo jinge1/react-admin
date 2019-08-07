@@ -15,6 +15,7 @@ function App() {
   const [list, setList] = useState([])
   const [openKeys, setOpenKeys] = useState([])
   const [tabs, setTabs] = useState([])
+  const [tabIndex, setTabIndex] = useState(0)
   useEffect(() => {
     fetchData('userMenu').then(res => {
       setList(res.data.list)
@@ -30,12 +31,15 @@ function App() {
     if (!tabs.includes(key)) {
       setTabs([...tabs, key])
     }
+    const newIndex = tabs.findIndex(newTab => newTab === key)
+    setTabIndex(newIndex > -1 ? newIndex : 0)
   }
 
   function delTab(item) {
-    console.log(item)
-    setTabs(tabs.filter(tab => tab !== item))
-    console.log(tabs)
+    const nextArr = tabs.filter(tab => tab !== item)
+    const newIndex = nextArr.findIndex(newTab => newTab === item)
+    setTabs(nextArr)
+    setTabIndex(newIndex > -1 ? newIndex : 0)
   }
 
   return (
@@ -52,7 +56,7 @@ function App() {
           height: '100vh'
         }}
       >
-        <h1 className="sysName">react-admin</h1>
+        <h1 className="sysName">react-admin-{tabIndex}</h1>
         <CommMenu
           list={list}
           openKeys={openKeys}
@@ -87,7 +91,7 @@ function App() {
                 collapsed={collapsed}
                 handleClick={() => setCollapsed(!collapsed)}
               />
-              <CommMenuTab list={tabs} delTab={delTab} />
+              <CommMenuTab list={tabs} tabIndex={tabIndex} delTab={delTab} />
             </div>
           </div>
         </Header>
