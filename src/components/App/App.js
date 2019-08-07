@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Layout } from 'antd'
-import CommMenu from './CommMenu'
-import CommHeader from './CommHeader'
-import CommRouter from './CommRouter'
+import CommMenu from '../CommMenu/CommMenu'
+import CommMenuTab from '../CommMenuTab/CommMenuTab'
+import CommHeader from '../CommHeader/CommHeader'
+import CommRouter from '../CommRouter'
+import fetchData from '../../utils/fetchData'
 import './reset.css'
 import './App.css'
 
@@ -10,6 +12,32 @@ const { Header, Sider, Content } = Layout
 
 function App() {
   const [collapsed, setCollapsed] = useState(false)
+  const [list, setList] = useState([])
+  const [openKeys, setOpenKeys] = useState([])
+  const [tabs, setTabs] = useState([])
+  useEffect(() => {
+    fetchData('userMenu').then(res => {
+      setList(res.data.list)
+    })
+  }, [])
+
+  function changeOpenKeys(item) {
+    setOpenKeys(item)
+  }
+
+  function chooseMenu(item) {
+    const { key } = item
+    if (!tabs.includes(key)) {
+      setTabs([...tabs, key])
+    }
+  }
+
+  function delTab(item) {
+    console.log(item)
+    setTabs(tabs.filter(tab => tab !== item))
+    console.log(tabs)
+  }
+
   return (
     <Layout>
       <Sider
@@ -25,7 +53,12 @@ function App() {
         }}
       >
         <h1 className="sysName">react-admin</h1>
-        <CommMenu />
+        <CommMenu
+          list={list}
+          openKeys={openKeys}
+          chooseMenu={chooseMenu}
+          changeOpenKeys={changeOpenKeys}
+        />
       </Sider>
       <Layout>
         <Header
@@ -54,11 +87,12 @@ function App() {
                 collapsed={collapsed}
                 handleClick={() => setCollapsed(!collapsed)}
               />
+              <CommMenuTab list={tabs} delTab={delTab} />
             </div>
           </div>
         </Header>
         <Content>
-          <div className="headerBlock"></div>
+          <div className="headerBlock" />
           <div className="contentSection">
             <div
               className="block"
@@ -70,6 +104,7 @@ function App() {
               <CommRouter />
             </div>
           </div>
+          {openKeys}
         </Content>
       </Layout>
     </Layout>

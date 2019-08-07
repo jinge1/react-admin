@@ -1,0 +1,8 @@
+.commNavTab{
+  display: flex;
+  list-style: none;
+}
+
+.commNavTab li{
+  padding: 0 20px;
+}

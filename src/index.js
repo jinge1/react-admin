@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
-import App from './components/App'
+import App from './components/App/App'
 import * as serviceWorker from './utils/serviceWorker'
 
 render(<App />, document.getElementById('root'))
