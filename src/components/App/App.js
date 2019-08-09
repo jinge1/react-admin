@@ -13,34 +13,55 @@ const { Header, Sider, Content } = Layout
 function App() {
   const [collapsed, setCollapsed] = useState(false)
   const [list, setList] = useState([])
-  const [openKeys, setOpenKeys] = useState([])
-  const [tabs, setTabs] = useState([])
-  const [currTab, setCurrTab] = useState({})
+  const [checkedTabs, setCheckedTabs] = useState([])
+  // const [tabs, setTabs] = useState([])
+  // const [currTab, setCurrTab] = useState({})
   useEffect(() => {
     fetchData('userMenu').then(res => {
       setList(res.data.list)
     })
   }, [])
 
-  function changeOpenKeys(item) {
-    setOpenKeys(item)
-  }
-
-  function chooseMenu(item) {
-    const { key } = item
-    if (!tabs.includes(key)) {
-      setTabs([...tabs, item])
+  function chooseMenu(indexs, name, len) {
+    const findIndex = checkedTabs.findIndex(
+      item => item[0].join('') === indexs.join('')
+    )
+    if(findIndex > -1){
+      setCheckedTabs([
+        ...checkedTabs.reduce((pre, curr, index) => {
+          const flg = index === findIndex
+          pre.push([curr[0], curr[1], curr[2], flg])
+          return pre
+        }, [])
+      ])
+    }else{
+      setCheckedTabs([
+        ...checkedTabs.reduce((pre, curr) => {
+          pre.push([curr[0], curr[1], curr[2], false])
+          return pre
+        }, []),
+        [indexs, name, len, true]
+      ])
     }
-    // setCurrTab(item)
   }
 
-  function delTab(item) {
-    const nextArr = tabs.filter(tab => tab.key !== item.key)
-    setTabs(nextArr)
-    // setCurrTab(nextArr.length > 0 ? nextArr[nextArr.length - 1] : 0)
+  function delTab(indexs, name, len) {
+    const findIndex = checkedTabs.findIndex(
+      item => item[0].join('') === indexs.join('')
+    )
+    const nextIndex = findIndex > 0 ? findIndex - 1 : 0
+    setCheckedTabs([
+      ...checkedTabs.reduce((pre, curr, index) => {
+        const flg = index === nextIndex
+        // console.log(`findIndex: ${findIndex}`)
+        // console.log(`index: ${index}`)
+        if(index !== findIndex){
+          pre.push([curr[0], curr[1], curr[2], flg])
+        }
+        return pre
+      }, [])
+    ])
   }
-
-  console.log(tabs)
 
   return (
     <Layout>
@@ -56,13 +77,8 @@ function App() {
           height: '100vh'
         }}
       >
-        <h1 className="sysName">react-admin-{tabs.length}-</h1>
-        <CommMenu
-          list={list}
-          openKeys={openKeys}
-          chooseMenu={chooseMenu}
-          changeOpenKeys={changeOpenKeys}
-        />
+        <h1 className="sysName">react-admin</h1>
+        <CommMenu list={list} chooseMenu={chooseMenu} />
       </Sider>
       <Layout>
         <Header
@@ -92,9 +108,8 @@ function App() {
                 handleClick={() => setCollapsed(!collapsed)}
               />
               <CommMenuTab
-                list={tabs}
-                currTab={currTab}
-                setCurrTab={setCurrTab}
+                list={checkedTabs}
+                chooseMenu={chooseMenu}
                 delTab={delTab}
               />
             </div>
@@ -113,7 +128,6 @@ function App() {
               <CommRouter />
             </div>
           </div>
-          {openKeys}
         </Content>
       </Layout>
     </Layout>

@@ -62,3 +62,7 @@
   }
 }
 ```
+
+vue 装饰器模式报错 eslint配置
+
+<!-- https://blog.csdn.net/xiaotiantian1993s/article/details/85698364 -->

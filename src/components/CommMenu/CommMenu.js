@@ -1,35 +1,28 @@
 import React from 'react'
-import { Menu, Icon } from 'antd'
-const { SubMenu } = Menu
+import './CommMenu.css'
 
-function madeTree(list, parent = []) {
+function madeTree(list, fn, parent = []) {
   if (Array.isArray(list) && list.length > 0) {
-    parent.push(1)
-    return list.map(item => {
-      const { children, resourceName, id } = item
-      if (Array.isArray(children) && children.length > 0) {
-        return (
-          <SubMenu
-            key={id}
-            // mode={parent.length > 1 ? 'horizontal' : 'inline'}
-            title={
-              <span>
-                <Icon type="user" />
-                <span>
-                  {resourceName}
-                </span>
-              </span>
-            }
-          >
-            {madeTree(children, [...parent])}
-          </SubMenu>
-        )
-      }
+    return list.map((item, index) => {
+      const { children = [], resourceName, id } = item
+      const len = children.length
+      const subEl =
+        len > 0 ? (
+          <ul className={`Sub${parent.length}`}>
+            {madeTree(children, fn, [...parent, index])}
+          </ul>
+        ) : null
       return (
-        <Menu.Item key={id}>
-          <Icon type="desktop" />
+        <li
+          key={id}
+          onClick={e => {
+            fn([...parent, index], resourceName, len)
+            e.stopPropagation()
+          }}
+        >
           <span>{resourceName}</span>
-        </Menu.Item>
+          {subEl}
+        </li>
       )
     })
   }
@@ -37,16 +30,6 @@ function madeTree(list, parent = []) {
 }
 
 export default function CommMenu(props) {
-  const { openKeys, changeOpenKeys, chooseMenu } = props
-  return (
-    <Menu
-      theme="dark"
-      openKeys={openKeys}
-      onOpenChange={changeOpenKeys}
-      onClick={chooseMenu}
-      mode="inline"
-    >
-      {madeTree(props.list)}
-    </Menu>
-  )
+  const { chooseMenu, list } = props
+  return <ul className="CommMenu">{madeTree(list, chooseMenu)}</ul>
 }

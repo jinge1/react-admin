@@ -4,25 +4,15 @@ import { Icon } from 'antd'
 import './CommMenuTab.css'
 
 export default function CommMenuTab(props) {
-  const { list, delTab, currTab, setCurrTab } = props
+  const { list, delTab, chooseMenu } = props
   return (
-
     <ul className="commNavTab">
       {list.map((item, index) => (
-        <li key={index}>
-          <span>{item.key}</span>
+        <li key={index} className={item[3] ? 'active' : ''}>
+          <span onClick={() => chooseMenu(...item)}>{item[1]}</span>
+          <Icon onClick={() => delTab(...item)} type="close" />
         </li>
       ))}
     </ul>
-
-
-    // <ul className="commNavTab">
-    //   {list.map((item, index) => (
-    //     <li key={item.key} className={item.key === currTab.key ? 'active' : ''}>
-    //       <span onClick={()=> setCurrTab(item)}>{item}</span>
-    //       <Icon onClick={()=> delTab(item)} type="close" />
-    //     </li>
-    //   ))}
-    // </ul>
   )
 }
