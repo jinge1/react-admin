@@ -63,6 +63,58 @@
 }
 ```
 
+## 配置postcss
+
+修改webpack.config.js文件中的postcss-loader项，如：
+
+```javascript
+{
+// Options for PostCSS as we reference these options twice
+// Adds vendor prefixing based on your specified browser support in
+// package.json
+loader: require.resolve('postcss-loader'),
+options: {
+  // Necessary for external CSS imports to work
+  // https://github.com/facebook/create-react-app/issues/2677
+  ident: 'postcss',
+  plugins: () => [
+    require('postcss-flexbugs-fixes'),
+    require('postcss-preset-env')({ // 修改项
+      stage: 3,
+      features: {
+        'nesting-rules': true
+      }
+    }),
+    // Adds PostCSS Normalize as the reset css with default options,
+    // so that it honors browserslist config in package.json
+    // which in turn let's users customize the target behavior as per their needs.
+    postcssNormalize()
+  ],
+  sourceMap: isEnvProduction && shouldUseSourceMap
+}
+```
+
+## css modules配置
+
+修改webpack.config.js文件中的cssModuleRegex项(增加modules: true)，如：
+
+```javascript
+{
+  test: cssModuleRegex,
+  use: getStyleLoaders({
+    importLoaders: 1,
+    sourceMap: isEnvProduction && shouldUseSourceMap,
+    modules: true,
+    localIdentName: '[name]-[local]-[hash:base64:8]',
+    getLocalIdent: getCSSModuleLocalIdent
+  })
+}
+
+```
+
+<!-- config-overrides.js -->
+<!-- https://www.npmjs.com/package/react-app-rewire-postcss -->
+
 vue 装饰器模式报错 eslint配置
 
 <!-- https://blog.csdn.net/xiaotiantian1993s/article/details/85698364 -->

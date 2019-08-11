@@ -1,4 +1,70 @@
-.contentSection {
+:root{
+  --show-width: 200px;
+  --hide-width: 50px;
+  --mainColor: #12345678;
+}
+.AppSlide{
+  width: var(--show-width);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 96;
+  height: 100vh;
+  overflow: auto;
+  background: orange;
+  transition: width 0.2s ease;
+}
+.SmallSlide{
+  width: var(--hide-width);
+}
+.SlideInner{
+  width: var(--show-width);
+}
+
+.AppContent{
+  display: flex;
+  position: relative;
+  min-height: 100vh;
+  background: gray;
+  width: 100%;
+}
+
+.ContentBlock{
+  width: var(--show-width);
+  background: green;
+  transition: width 0.2s ease;
+}
+.SmallBlock{
+  width: var(--hide-width);
+}
+.ContentMain{
+  flex: 1;
+}
+
+
+
+/* .App{
+  display: flex;
+  height: 100vh;
+}
+.Sider{
+  width: var(--show-width);
+  background: orange;
+  position: relative;
+  transition: width 0.2s ease;
+}
+.SiderContent{
+  width: var(--hide-width);
+}
+.Collapsed{
+  width: 50px;
+}
+.Main{
+  flex: 1;
+  background: gray;
+} */
+
+/* .contentSection {
   display: flex;
 }
 .block {
@@ -7,6 +73,9 @@
 }
 .contentBlock {
   flex: 1;
+}
+.blue{
+  color: blue;
 }
 .sysName {
   margin: 0;
@@ -28,4 +97,4 @@
 }
 .Home p:nth-child(odd){
   background: gray;
-}
+} */

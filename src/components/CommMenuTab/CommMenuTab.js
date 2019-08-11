@@ -9,7 +9,7 @@ export default function CommMenuTab(props) {
     <ul className="commNavTab">
       {list.map((item, index) => (
         <li key={index} className={item[3] ? 'active' : ''}>
-          <span onClick={() => chooseMenu(...item)}>{item[1]}</span>
+          <span className="blue" onClick={() => chooseMenu(...item)}>{item[1]}</span>
           <Icon onClick={() => delTab(...item)} type="close" />
         </li>
       ))}

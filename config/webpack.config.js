@@ -92,10 +92,10 @@ module.exports = function(webpackEnv) {
           plugins: () => [
             require('postcss-flexbugs-fixes'),
             require('postcss-preset-env')({
-              autoprefixer: {
-                flexbox: 'no-2009'
-              },
-              stage: 3
+              stage: 3,
+              features: {
+                'nesting-rules': true
+              }
             }),
             // Adds PostCSS Normalize as the reset css with default options,
             // so that it honors browserslist config in package.json
@@ -406,6 +406,8 @@ module.exports = function(webpackEnv) {
               exclude: cssModuleRegex,
               use: getStyleLoaders({
                 importLoaders: 1,
+                modules: true,
+                localIdentName: '[name]-[local]-[hash:base64:8]',
                 sourceMap: isEnvProduction && shouldUseSourceMap
               }),
               // Don't consider CSS imports dead code even if the

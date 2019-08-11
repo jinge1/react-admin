@@ -1,5 +1,5 @@
 import React from 'react'
-import './CommMenu.css'
+import styles from './CommMenu.css'
 
 function madeTree(list, fn, parent = []) {
   if (Array.isArray(list) && list.length > 0) {
@@ -8,13 +8,14 @@ function madeTree(list, fn, parent = []) {
       const len = children.length
       const subEl =
         len > 0 ? (
-          <ul className={`Sub${parent.length}`}>
+          <ul className={styles[`Sub${parent.length}`]}>
             {madeTree(children, fn, [...parent, index])}
           </ul>
         ) : null
       return (
         <li
           key={id}
+          className={styles[`Item${parent.length}`]}
           onClick={e => {
             fn([...parent, index], resourceName, len)
             e.stopPropagation()
@@ -31,5 +32,5 @@ function madeTree(list, fn, parent = []) {
 
 export default function CommMenu(props) {
   const { chooseMenu, list } = props
-  return <ul className="CommMenu">{madeTree(list, chooseMenu)}</ul>
+  return <ul className={styles.CommMenu}>{madeTree(list, chooseMenu)}</ul>
 }
