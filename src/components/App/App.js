@@ -178,7 +178,10 @@ export default function App() {
     }else{
 
     }
-    setCurrMenu(indexs)
+    if(indexs.length < 3){
+      setCurrMenu(indexs)
+    }
+    
 
     // const findIndex = checkedTabs.findIndex(
     //   item => item[0].join('') === indexs.join('')

@@ -36,9 +36,6 @@ function madeTree(list, fn, parent = [], currMenu = []) {
           <span>
             {nextParent.join(',')}-{resourceName}-{currMenu.join(',')}
           </span>
-          {/* <span>
-            {parent.join(',')} >>> {currMenu.join(',')}
-          </span> */}
           {subEl}
         </li>
       )
