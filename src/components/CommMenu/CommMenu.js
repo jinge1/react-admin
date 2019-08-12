@@ -1,27 +1,37 @@
 import React from 'react'
 import styles from './CommMenu.css'
 
-function madeTree(list, fn, parent = []) {
+function madeTree(list, fn, parent = [], currMenu = []) {
+  const pLen = parent.length
   if (Array.isArray(list) && list.length > 0) {
     return list.map((item, index) => {
       const { children = [], resourceName, id } = item
-      const len = children.length
+      const childrenLen = children.length
+      // const isMenuCurr = typeof currMenu[pLen] !== 'undefined' && currMenu[pLen] === index
+      const isMenuCurr = currMenu.every((curItem, curIndex)=> curItem === parent[curIndex])
+      const menuClass = styles[`Menu${pLen + 1}`]
+      const itemClass = styles[`Item${pLen}`]
+
       const subEl =
-        len > 0 ? (
-          <ul className={styles[`Sub${parent.length}`]}>
-            {madeTree(children, fn, [...parent, index])}
+        childrenLen > 0 ? (
+          <ul className={menuClass}>
+            {madeTree(children, fn, [...parent, index], currMenu)}
           </ul>
         ) : null
       return (
         <li
           key={id}
-          className={styles[`Item${parent.length}`]}
-          onClick={e => {
-            fn([...parent, index], resourceName, len)
-            e.stopPropagation()
+          className={
+            isMenuCurr ? `${itemClass} ${styles['active']}` : itemClass
+          }
+          onClick={event => {
+            fn([...parent, index], resourceName, childrenLen)
+            event.stopPropagation()
           }}
         >
-          <span>{resourceName}</span>
+          <span>
+            {resourceName}
+          </span>
           {subEl}
         </li>
       )
@@ -31,6 +41,8 @@ function madeTree(list, fn, parent = []) {
 }
 
 export default function CommMenu(props) {
-  const { chooseMenu, list } = props
-  return <ul className={styles.CommMenu}>{madeTree(list, chooseMenu)}</ul>
+  const { chooseMenu, list, currMenu } = props
+  return (
+    <ul className={styles.Menu0}>{madeTree(list, chooseMenu, [], currMenu)}</ul>
+  )
 }

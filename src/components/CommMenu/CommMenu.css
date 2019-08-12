@@ -1,20 +1,43 @@
-.CommMenu {
+.Menu0 {
   & li {
     margin-left: 20px;
   }
 }
+.Menu0 {
+}
+.Menu1 {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.2s ease;
+}
+.Menu2 {
+  position: fixed;
+  width: 200px;
+  left: 200px;
+  top: 0;
+  z-index: 1000;
+  display: none;
+}
 
-.Sub0 {
-  /* overflow: hidden; */
+.Item0 {
+  &.active{
+    & > ul{
+      height: auto;
+    }
+  }
 }
 .Item1 {
-  /* position:relative; */
-  & ul {
-    position: fixed;
-    width: 200px;
-    left: 200px;
-    top: 0;
-    z-index: 1000;
-    display: none;
+  &.active{
+    & > ul{
+      display: block;
+    }
+  }
+}
+.Item2 {
+}
+
+.active {
+  & > span {
+    color: blue;
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 // import { Layout } from 'antd'
 import CommMenu from '../CommMenu/CommMenu'
 // import CommMenuTab from '../CommMenuTab/CommMenuTab'
@@ -8,12 +8,12 @@ import fetchData from '../../utils/fetchData'
 import './reset.css'
 import {
   Page,
-  AppSlide,
+  AppMenu,
   AppContent,
   AppMain,
   Collapsed,
-  SlideInner,
-  SmallSlide,
+  MenuInner,
+  PartSlide,
   SmallBlock,
   ContentBlock,
   ContentMain
@@ -157,20 +157,65 @@ import {
 export default function App() {
   const [collapsed, setCollapsed] = useState(false)
   const [list, setList] = useState([])
+  const [currMenu, setCurrMenu] = useState([0, 0])
+  const [checkedTabs, setCheckedTabs] = useState([])
 
   useEffect(() => {
     fetchData('userMenu').then(res => {
-      setList(res.data.list)
+      const list = res.data.list
+      setList(list)
     })
   }, [])
 
+  const chooseMenu = useCallback((indexs, name, childrenLen) => {
+    console.log('-----------------------')
+    console.log(indexs)
+    
+    // console.log(name)
+    // console.log(childrenLen)
+    if(childrenLen === 0){
+      // link
+    }else{
+      // console.log(indexs)
+      // setCurrMenu(indexs)
+    }
+    setCurrMenu(indexs)
+
+    // const findIndex = checkedTabs.findIndex(
+    //   item => item[0].join('') === indexs.join('')
+    // )
+    // if(indexs.length === 1){
+    //   if(childrenLen === 0){
+
+    //   }else{
+
+    //   }
+    // }
+    // if(findIndex > -1){
+    //   setCheckedTabs([
+    //     ...checkedTabs.reduce((pre, curr, index) => {
+    //       const flg = index === findIndex
+    //       pre.push([curr[0], curr[1], curr[2], flg])
+    //       return pre
+    //     }, [])
+    //   ])
+    // }else{
+    //   setCheckedTabs([
+    //     ...checkedTabs.reduce((pre, curr) => {
+    //       pre.push([curr[0], curr[1], curr[2], false])
+    //       return pre
+    //     }, []),
+    //     [indexs, name, len, true]
+    //   ])
+    // }
+  }, [])
 
   return (
     <div className={Page}>
-      <div className={`${AppSlide} ${collapsed ? SmallSlide : ''}`}>
-        <div className={SlideInner}>
+      <div className={`${AppMenu} ${collapsed ? PartSlide : ''}`}>
+        <div className={MenuInner}>
           <h1>react-admin</h1>
-          <CommMenu list={list} />
+          <CommMenu list={list} chooseMenu={chooseMenu} currMenu={currMenu} />
         </div>
       </div>
       <div className={AppContent}>

@@ -3,7 +3,7 @@
   --hide-width: 50px;
   --mainColor: #12345678;
 }
-.AppSlide{
+.AppMenu{
   width: var(--show-width);
   position: fixed;
   left: 0;
@@ -14,10 +14,10 @@
   background: orange;
   transition: width 0.2s ease;
 }
-.SmallSlide{
+.PartSlide{
   width: var(--hide-width);
 }
-.SlideInner{
+.MenuInner{
   width: var(--show-width);
 }
 
