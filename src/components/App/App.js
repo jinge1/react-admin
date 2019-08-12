@@ -157,8 +157,8 @@ import {
 export default function App() {
   const [collapsed, setCollapsed] = useState(false)
   const [list, setList] = useState([])
-  const [currMenu, setCurrMenu] = useState([0, 0])
-  const [checkedTabs, setCheckedTabs] = useState([])
+  const [currMenu, setCurrMenu] = useState([1, 0])
+  // const [checkedTabs, setCheckedTabs] = useState([])
 
   useEffect(() => {
     fetchData('userMenu').then(res => {
@@ -176,8 +176,7 @@ export default function App() {
     if(childrenLen === 0){
       // link
     }else{
-      // console.log(indexs)
-      // setCurrMenu(indexs)
+
     }
     setCurrMenu(indexs)
 

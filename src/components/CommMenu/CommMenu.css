@@ -6,7 +6,7 @@
 .Menu0 {
 }
 .Menu1 {
-  height: 0;
+  /* height: 0; */
   overflow: hidden;
   transition: height 0.2s ease;
 }

@@ -6,16 +6,20 @@ function madeTree(list, fn, parent = [], currMenu = []) {
   if (Array.isArray(list) && list.length > 0) {
     return list.map((item, index) => {
       const { children = [], resourceName, id } = item
+      const nextParent = [...parent, index]
       const childrenLen = children.length
-      // const isMenuCurr = typeof currMenu[pLen] !== 'undefined' && currMenu[pLen] === index
-      const isMenuCurr = currMenu.every((curItem, curIndex)=> curItem === parent[curIndex])
+      const isMenuCurr = currMenu.every(
+        (curItem, curIndex) =>
+          nextParent.length <= currMenu.length &&
+          curItem === nextParent[curIndex]
+      )
       const menuClass = styles[`Menu${pLen + 1}`]
       const itemClass = styles[`Item${pLen}`]
 
       const subEl =
         childrenLen > 0 ? (
           <ul className={menuClass}>
-            {madeTree(children, fn, [...parent, index], currMenu)}
+            {madeTree(children, fn, nextParent, currMenu)}
           </ul>
         ) : null
       return (
@@ -25,13 +29,16 @@ function madeTree(list, fn, parent = [], currMenu = []) {
             isMenuCurr ? `${itemClass} ${styles['active']}` : itemClass
           }
           onClick={event => {
-            fn([...parent, index], resourceName, childrenLen)
+            fn(nextParent, resourceName, childrenLen)
             event.stopPropagation()
           }}
         >
           <span>
-            {resourceName}
+            {nextParent.join(',')}-{resourceName}-{currMenu.join(',')}
           </span>
+          {/* <span>
+            {parent.join(',')} >>> {currMenu.join(',')}
+          </span> */}
           {subEl}
         </li>
       )
