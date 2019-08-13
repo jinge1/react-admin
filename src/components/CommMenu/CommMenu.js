@@ -8,10 +8,9 @@ function madeTree(list, fn, parent = [], currMenu = []) {
       const { children = [], resourceName, id } = item
       const nextParent = [...parent, index]
       const childrenLen = children.length
-      const isMenuCurr = currMenu.every(
+      const isMenuCurr = nextParent.every(
         (curItem, curIndex) =>
-          nextParent.length <= currMenu.length &&
-          curItem === nextParent[curIndex]
+          curItem === currMenu[curIndex]
       )
       const menuClass = styles[`Menu${pLen + 1}`]
       const itemClass = styles[`Item${pLen}`]
@@ -34,7 +33,7 @@ function madeTree(list, fn, parent = [], currMenu = []) {
           }}
         >
           <span>
-            {nextParent.join(',')}-{resourceName}-{currMenu.join(',')}
+            {resourceName}
           </span>
           {subEl}
         </li>

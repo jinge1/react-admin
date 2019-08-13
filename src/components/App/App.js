@@ -178,9 +178,9 @@ export default function App() {
     }else{
 
     }
-    if(indexs.length < 3){
+    // if(indexs.length < 3){
       setCurrMenu(indexs)
-    }
+    // }
     
 
     // const findIndex = checkedTabs.findIndex(
