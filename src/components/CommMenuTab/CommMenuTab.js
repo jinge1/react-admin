@@ -1,16 +1,19 @@
 import React from 'react'
 import { Icon } from 'antd'
 
-import './CommMenuTab.css'
+// import './CommMenuTab.css'
+import { commNavTab, Active } from './CommMenuTab.css'
 
 export default function CommMenuTab(props) {
-  const { list, delTab, chooseMenu } = props
+  const { list, changeTab } = props
   return (
-    <ul className="commNavTab">
+    <ul className={commNavTab}>
       {list.map((item, index) => (
-        <li key={index} className={item[3] ? 'active' : ''}>
-          <span className="blue" onClick={() => chooseMenu(...item)}>{item[1]}</span>
-          <Icon onClick={() => delTab(...item)} type="close" />
+        <li key={index} className={item.isActive ? Active : ''}>
+          <span className="blue" onClick={() => changeTab(item, 1)}>
+            {item.name}
+          </span>
+          <Icon onClick={() => changeTab(item, 2)} type="close" />
         </li>
       ))}
     </ul>

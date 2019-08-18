@@ -1,0 +1,7 @@
+.CollapsedSection {
+  display: flex;
+}
+
+.CollapsedMain {
+  flex: 1;
+}

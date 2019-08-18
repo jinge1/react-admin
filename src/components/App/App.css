@@ -1,27 +1,46 @@
-:root{
+:root {
   --show-width: 200px;
   --hide-width: 50px;
-  --mainColor: #12345678;
 }
-.AppMenu{
+.MenuShow {
   width: var(--show-width);
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 96;
-  height: 100vh;
-  overflow: auto;
-  background: orange;
-  transition: width 0.2s ease;
+  overflow-x: hidden;
 }
-.PartSlide{
+.MenuHide {
   width: var(--hide-width);
-}
-.MenuInner{
-  width: var(--show-width);
+  overflow-x: hidden;
 }
 
-.AppContent{
+.LeftMenu{
+  position: fixed;
+  left:0;
+  top: 0;
+  z-index: 11;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.WebName {
+  text-align: center;
+}
+.PageHeader {
+  height: 58px;
+}
+.HeaderInner{
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+
+/* .PageHeader::after {
+  content: '';
+  display: block;
+  height: 78px;
+} */
+
+/* 
+.AppContent {
   display: flex;
   position: relative;
   min-height: 100vh;
@@ -29,19 +48,33 @@
   width: 100%;
 }
 
-.ContentBlock{
+.ContentBlock {
   width: var(--show-width);
   background: green;
   transition: width 0.2s ease;
 }
-.SmallBlock{
+.SmallBlock {
   width: var(--hide-width);
 }
-.ContentMain{
+.ContentMain {
   flex: 1;
 }
-
-
+.TabActive {
+  color: orange;
+}
+.PageHeader {
+  height: 78px;
+}
+.PageHeaderInner {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  display: flex;
+}
+.PageHeaderRight{
+  flex: 1;
+} */
 
 /* .App{
   display: flex;

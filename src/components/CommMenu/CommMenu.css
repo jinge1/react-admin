@@ -4,6 +4,7 @@
   }
 }
 .Menu0 {
+  white-space: nowrap;
 }
 .Menu1 {
   height: 0;
@@ -20,23 +21,21 @@
 }
 
 .Item0 {
-  &.active{
-    & > ul{
+  &.open {
+    & > ul {
       height: auto;
     }
   }
 }
-.Item1 {
-  &.active{
-    & > ul{
-      display: block;
-    }
+.Item1:hover {
+  & > ul {
+    display: block;
   }
 }
 .Item2 {
 }
 
-.active {
+.open {
   & > span {
     color: blue;
   }
