@@ -35,7 +35,7 @@ export default function App() {
       const indexsStr = indexs.join(',')
       const openMenuStr = openMenu.join(',')
 
-      if (childrenLen === 0) {
+      if (childrenLen === 0) {  // link
         let arr = tabMenu.reduce((pre, curr) => {
           const currIdsStr = curr.ids.join(',')
           let isActive = false

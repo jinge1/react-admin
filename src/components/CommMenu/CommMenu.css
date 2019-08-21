@@ -27,11 +27,11 @@
     }
   }
 }
-.Item1:hover {
+/* .Item1:hover {
   & > ul {
     display: block;
   }
-}
+} */
 .Item2 {
 }
 
