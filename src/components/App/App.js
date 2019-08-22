@@ -35,7 +35,8 @@ export default function App() {
       const indexsStr = indexs.join(',')
       const openMenuStr = openMenu.join(',')
 
-      if (childrenLen === 0) {  // link
+      if (childrenLen === 0) {
+        // link
         let arr = tabMenu.reduce((pre, curr) => {
           const currIdsStr = curr.ids.join(',')
           let isActive = false
@@ -125,7 +126,12 @@ export default function App() {
       }
     >
       <h1 className={WebName}>react-admin</h1>
-      <CommMenu list={list} chooseMenu={chooseMenu} openMenu={openMenu} />
+      <CommMenu
+        list={list}
+        chooseMenu={chooseMenu}
+        openMenu={openMenu}
+        tabMenu={tabMenu}
+      />
     </div>
   )
 

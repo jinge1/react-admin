@@ -32,6 +32,8 @@
     display: block;
   }
 } */
+.Item1 {
+}
 .Item2 {
 }
 
@@ -39,4 +41,7 @@
   & > span {
     color: blue;
   }
+}
+.tabItem {
+  color: blue;
 }

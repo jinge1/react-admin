@@ -3,6 +3,7 @@ import styles from './CommMenu.css'
 
 function madeTree(
   list,
+  tabMenu,
   fn,
   parent = [],
   openMenu = [],
@@ -17,9 +18,9 @@ function madeTree(
       const { children = [], resourceName, id } = item
       const nextParent = [...parent, index]
       const childrenLen = children.length
-      const isOpen = openMenu.join(',').startsWith(nextParent.join(','))
+      // const isOpen = openMenu.join(',').startsWith(nextParent.join(','))
       const menuClass = styles[`Menu${pLen + 1}`]
-      const itemClass = styles[`Item${pLen}`]
+      // const itemClass = styles[`Item${pLen}`]
 
       const subEl =
         childrenLen > 0 ? (
@@ -37,6 +38,7 @@ function madeTree(
           >
             {madeTree(
               children,
+              tabMenu,
               fn,
               nextParent,
               openMenu,
@@ -50,7 +52,7 @@ function madeTree(
       return (
         <li
           key={id}
-          className={isOpen ? `${itemClass} ${styles['open']}` : itemClass}
+          className={getClassName(openMenu, nextParent, tabMenu, styles)}
           onClick={event => {
             fn(nextParent, resourceName, childrenLen)
             event.stopPropagation()
@@ -73,6 +75,18 @@ function madeTree(
   return null
 }
 
+const getClassName = (openMenu, nextParent, tabMenu, styles) => {
+  const isOpen = openMenu.join(',').startsWith(nextParent.join(','))
+  let className = styles[`Item${nextParent.length - 1}`]
+  if (isOpen) {
+    className = `${className} ${styles['open']}`
+  }
+  if(tabMenu.some(({ids})=> ids.join(',') === nextParent.join(','))){
+    className = `${className} ${styles['tabItem']}`
+  }
+  return className
+}
+
 const findLi = ele => {
   if (!ele) {
     return null
@@ -92,7 +106,7 @@ export default function CommMenu(props) {
   const [top, setTop] = useState([])
   const ulRef = useRef(null)
   const [currLi, setCurrLi] = useState(null)
-  const { chooseMenu, list, openMenu } = props
+  const { chooseMenu, list, openMenu, tabMenu } = props
 
   const onMouseOver = (event, nextParent, resourceName, childrenLen) => {
     if (nextParent.join(',') === overParent.join(',')) {
@@ -130,6 +144,7 @@ export default function CommMenu(props) {
     <ul className={styles.Menu0} ref={ulRef}>
       {madeTree(
         list,
+        tabMenu,
         chooseMenu,
         [],
         openMenu,
