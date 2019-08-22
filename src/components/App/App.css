@@ -32,6 +32,9 @@
   left: 0;
   top: 0;
 }
+.PageMain{
+  padding: 20px;
+}
 
 /* .PageHeader::after {
   content: '';

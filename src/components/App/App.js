@@ -12,7 +12,8 @@ import {
   MenuHide,
   LeftMenu,
   HeaderInner,
-  PageHeader
+  PageHeader,
+  PageMain
 } from './App.css'
 
 export default function App() {
@@ -53,6 +54,7 @@ export default function App() {
           arr = [...arr, { ids: [...indexs], name, isActive: true }]
         }
         setTabMenu(arr)
+        
       } else {
         if (indexsLen > openLen) {
           setOpenMenu(indexs)
@@ -148,7 +150,9 @@ export default function App() {
         </div>
       </div>
       <CommMenuTab list={tabMenu} changeTab={changeTab} />
-      <CommRouter />
+      <div className={PageMain}>
+        <CommRouter />
+      </div>
     </CollapsedContent>
   )
 }
