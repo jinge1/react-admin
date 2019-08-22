@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useLayoutEffect } from 'react'
 import styles from './CommMenu.css'
 
 function madeTree(
@@ -6,8 +6,10 @@ function madeTree(
   fn,
   parent = [],
   openMenu = [],
-  onMouseEnter,
-  overParent
+  onMouseOver,
+  onMouseLeave,
+  overParent,
+  top = 0
 ) {
   const pLen = parent.length
   if (Array.isArray(list) && list.length > 0) {
@@ -29,7 +31,8 @@ function madeTree(
                   ? nextParent.join(',') === overParent.join(',')
                     ? 'block'
                     : 'none'
-                  : 'block'
+                  : 'block',
+              top: `${top}px`
             }}
           >
             {madeTree(
@@ -37,8 +40,10 @@ function madeTree(
               fn,
               nextParent,
               openMenu,
-              onMouseEnter,
-              overParent
+              onMouseOver,
+              onMouseLeave,
+              overParent,
+              top
             )}
           </ul>
         ) : null
@@ -52,7 +57,11 @@ function madeTree(
           }}
           onMouseOver={async event => {
             event.persist()
-            onMouseEnter(event, nextParent, resourceName, childrenLen)
+            onMouseOver(event, nextParent, resourceName, childrenLen)
+          }}
+          onMouseLeave={async event => {
+            event.persist()
+            onMouseLeave(event, nextParent, resourceName, childrenLen)
           }}
         >
           <span>{resourceName}</span>
@@ -64,20 +73,71 @@ function madeTree(
   return null
 }
 
+const findLi = ele => {
+  if (!ele) {
+    return null
+  }
+  const tagName = ele.tagName.toLowerCase()
+  if (tagName === 'ul') {
+    return null
+  }
+  if (tagName === 'li') {
+    return ele
+  }
+  return findLi(ele.parentNode)
+}
+
 export default function CommMenu(props) {
   const [overParent, setOverParent] = useState([])
+  const [top, setTop] = useState([])
+  const ulRef = useRef(null)
+  const [currLi, setCurrLi] = useState(null)
   const { chooseMenu, list, openMenu } = props
 
-  const onMouseEnter = (event, nextParent, resourceName, childrenLen) => {
+  const onMouseOver = (event, nextParent, resourceName, childrenLen) => {
+    if (nextParent.join(',') === overParent.join(',')) {
+      return false
+    }
     if (nextParent.length > 1 && childrenLen > 0) {
-      // console.log(event, nextParent, resourceName, childrenLen)
-      // console.log(event.relatedTarget)
+      const li = findLi(event.target)
       setOverParent(nextParent)
+      if (li) {
+        setCurrLi(li)
+      }
+    }
+  }
+
+  useLayoutEffect(() => {
+    if (currLi) {
+      let offsetTop = currLi.offsetTop
+      const childUl = currLi.getElementsByTagName('ul')[0]
+      const clientHeight = document.documentElement.clientHeight
+      const ulOffsetHeight = childUl.offsetHeight
+      const maxTop = clientHeight - ulOffsetHeight
+      if (ulRef) {
+        offsetTop = offsetTop - ulRef.current.parentNode.scrollTop
+      }
+      setTop(Math.min(offsetTop, maxTop))
+    }
+  }, [overParent, currLi])
+
+  const onMouseLeave = (event, nextParent, resourceName, childrenLen) => {
+    if (nextParent.length > 1 && childrenLen > 0) {
+      setOverParent([])
     }
   }
   return (
-    <ul className={styles.Menu0}>
-      {madeTree(list, chooseMenu, [], openMenu, onMouseEnter, overParent)}
+    <ul className={styles.Menu0} ref={ulRef}>
+      {madeTree(
+        list,
+        chooseMenu,
+        [],
+        openMenu,
+        onMouseOver,
+        onMouseLeave,
+        overParent,
+        top
+      )}
     </ul>
   )
 }
