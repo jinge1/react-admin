@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { createHashHistory,createBrowserHistory } from 'history'
 import CommMenu from '../CommMenu/CommMenu'
 import CommMenuTab from '../CommMenuTab/CommMenuTab'
 import CommHeader from '../CommHeader/CommHeader'
@@ -15,6 +16,7 @@ import {
   PageHeader,
   PageMain
 } from './App.css'
+const history = createHashHistory();
 
 export default function App() {
   const [collapsed, setCollapsed] = useState(false)
@@ -54,7 +56,7 @@ export default function App() {
           arr = [...arr, { ids: [...indexs], name, isActive: true }]
         }
         setTabMenu(arr)
-        
+        history.push('/reigister');
       } else {
         if (indexsLen > openLen) {
           setOpenMenu(indexs)
